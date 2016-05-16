@@ -1,7 +1,7 @@
 import java.util.ArrayList;
 import java.util.List;
 
-//ÊµÏÖintToHex ½«Ò»¸öÕûÊı×ª»»Îª16½øÖÆµÄ×Ö·û´®
+//å®ç°intToHex å°†ä¸€ä¸ªæ•´æ•°è½¬æ¢ä¸º16è¿›åˆ¶çš„å­—ç¬¦ä¸²
 public class Test2 {
 	public static void main (String[] args){
 		String ss = intToHex(255);
@@ -9,7 +9,7 @@ public class Test2 {
 	}
 	
 	public static String intToHex(int n){
-		//s£º½«ÕûÊı×ª»¯Îª¶ş½øÖÆµÄ×Ö·û´®
+		//sï¼šå°†æ•´æ•°è½¬åŒ–ä¸ºäºŒè¿›åˆ¶çš„å­—ç¬¦ä¸²
 		StringBuffer s = new StringBuffer();
 		while(n!=1){
 			s.append(n%2);
@@ -18,16 +18,16 @@ public class Test2 {
 		s.append(1);
 		s.reverse();
 		int length = s.length();
-		int num1 = length/4+1;//·Ö³ÉµÄ×Ö·û´®¸öÊı
-		int num2 = length%4;//µÚÒ»¸ö×Ö·û´®µÄ³¤¶È
-		//list½«¶ş½øÖÆ×Ö·û´®°´4Î»Ò»×é·Ö³ÉÈô¸É×é×Ö·û´®
+		int num1 = length/4+1;//åˆ†æˆçš„å­—ç¬¦ä¸²ä¸ªæ•°
+		int num2 = length%4;//ç¬¬ä¸€ä¸ªå­—ç¬¦ä¸²çš„é•¿åº¦
+		//listå°†äºŒè¿›åˆ¶å­—ç¬¦ä¸²æŒ‰4ä½ä¸€ç»„åˆ†æˆè‹¥å¹²ç»„å­—ç¬¦ä¸²
 		List<String> list= new ArrayList<String>();
 		list.add(s.substring(0, num2));
 		for (int i=0;i<num1-1;i++){
 			list.add(s.substring(num2+4*i, num2+4*(i+1)));
 		}
 		s.setLength(0);
-		//sbÓÃÀ´´æ´¢×îºóµÄ×Ö·û´®
+		//sbç”¨æ¥å­˜å‚¨æœ€åçš„å­—ç¬¦ä¸²
 		StringBuffer sb = new StringBuffer();
 		for (String sss:list){
 			switch(sss){

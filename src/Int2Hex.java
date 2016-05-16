@@ -3,12 +3,12 @@ import static org.junit.Assert.*;
 import org.junit.Test;
 
 public class Int2Hex {
-	//Ê¹ÓÃ¹Ì¶¨ºÃµÄ¶ÔÓ¦×Ö½ÚÊı×éÀ´´æ´¢
+	//ä½¿ç”¨å›ºå®šå¥½çš„å¯¹åº”å­—èŠ‚æ•°ç»„æ¥å­˜å‚¨
 	private static final byte[] digitHexs = new byte[] { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B',
 			'C', 'D', 'E', 'F' };
 
 	/**
-	 * »ñÈ¡Ò»¸öÕûÊı¶ÔÓ¦µÄÊ®Áù½øÖÆ×Ö·û´®£¬¸ºÊı½«»áÔÚÇ°ÃæÌí¼Ó·ûºÅ
+	 * è·å–ä¸€ä¸ªæ•´æ•°å¯¹åº”çš„åå…­è¿›åˆ¶å­—ç¬¦ä¸²ï¼Œè´Ÿæ•°å°†ä¼šåœ¨å‰é¢æ·»åŠ ç¬¦å·
 	 * <pre>
 	 *   int2hex(0) == "0"
 	 *   int2hex(9) == "9"
@@ -23,12 +23,12 @@ public class Int2Hex {
 		if (num == 0) {
 			return "0";
 		}
-		if (num == Integer.MIN_VALUE) { // ½«Integer.MIN_VALUE×ª»»Îª¾ø¶ÔÖµÊ±£¬»á³¬³öÕûĞÍ±ß½ç£¬¹Ê½øĞĞÌØÊâ´¦Àí
+		if (num == Integer.MIN_VALUE) { // å°†Integer.MIN_VALUEè½¬æ¢ä¸ºç»å¯¹å€¼æ—¶ï¼Œä¼šè¶…å‡ºæ•´å‹è¾¹ç•Œï¼Œæ•…è¿›è¡Œç‰¹æ®Šå¤„ç†
 			return "-80000000";
 		}
-		//´´½¨Ê±³õÊ¼»¯´óĞ¡£¬½ÚÊ¡ÄÚ´æ
+		//åˆ›å»ºæ—¶åˆå§‹åŒ–å¤§å°ï¼ŒèŠ‚çœå†…å­˜
 		byte[] chars = new byte[num < 0 ? 9 : 8];
-		boolean isNegtive = num < 0;//ÊÇ·ñÎª¸ºÊı
+		boolean isNegtive = num < 0;//æ˜¯å¦ä¸ºè´Ÿæ•°
 		if (isNegtive) {
 			num = Math.abs(num);
 		}
@@ -45,13 +45,13 @@ public class Int2Hex {
 	}
 
 	/**
-	 * »ñÈ¡Ò»¸ö0~15µÄÕûÊı¶ÔÓ¦µÄÊ®Áù½øÖÆ×Ö·û
+	 * è·å–ä¸€ä¸ª0~15çš„æ•´æ•°å¯¹åº”çš„åå…­è¿›åˆ¶å­—ç¬¦
 	 * @param digit
 	 * @return
 	 */
 	private byte digit2HexChar(int digit) {
 		if (digit < 0 || digit > 15) {
-			throw new IllegalArgumentException("ÎŞ·¨½«³¬¹ı[0,15]·¶Î§µÄÊı×ª»»Îª16½øÖÆ×Ö·û:" + digit);
+			throw new IllegalArgumentException("æ— æ³•å°†è¶…è¿‡[0,15]èŒƒå›´çš„æ•°è½¬æ¢ä¸º16è¿›åˆ¶å­—ç¬¦:" + digit);
 		}
 		return digitHexs[digit];
 	}

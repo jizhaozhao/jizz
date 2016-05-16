@@ -18,6 +18,7 @@ public class File2Buf {
 		byte[] buf = new byte[(int) fileSize];
 		int total = 0;
 //		int n = 0;
+//		一次读取4096符合物理磁盘存储，效率比较高，但是
 //		while ((n = fis.read(buf, total, 4096)) != -1 && fileSize > total) {
 //			total += n;
 //		}
@@ -48,7 +49,7 @@ public class File2Buf {
 			}
 			assertEquals("656565495051", str.toString());
 		} catch (FileNotFoundException e){
-			System.out.println("ϵͳ�Ҳ���ָ�����ļ�");
+			System.out.println("系统找不到指定的文件");
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

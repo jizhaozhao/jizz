@@ -5,11 +5,11 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
-//¸ø¶¨¶ş²æÊ÷tree,treeµÄ½Úµã¶ÔÏóÎªTNode
-class TNode{
+//ç»™å®šäºŒå‰æ ‘tree,treeçš„èŠ‚ç‚¹å¯¹è±¡ä¸ºTNode
+class TNode {
 	String value;
-	TNode left,right;
-	
+	TNode left, right;
+
 	public TNode() {
 		super();
 	}
@@ -20,57 +20,91 @@ class TNode{
 		this.left = left;
 		this.right = right;
 	}
-	
+
 }
-public class Test3 {
+
+class Tree {
 	private static List<String> list = new ArrayList<String>(6);
 
-	@Test
-	public void test(){
-		TNode root = init();
-		TreeLevel(root,3);
-		assertEquals("[G, H, C, F]", list.toString());
-		
-		list.clear();
-		TreeLevel(root,2);
-		assertEquals("[B, D]", list.toString());
-		
-		list.clear();
-		TreeLevel(root,1);
-		assertEquals("[A]", list.toString());
-		
-		list.clear();
-		TreeLevel(root,4);
-		assertEquals("[E, I, J, K, L, M]", list.toString());
+	public List<String> getList() {
+		return list;
 	}
-	
-	
-	public static TNode init(){
-		TNode root,b,c,d,e,f,g,h,i,j,k,l,m;
-		e = new TNode("E",null,null);
-		i = new TNode("I",null,null);
-		j = new TNode("J",null,null);
-		k = new TNode("K",null,null);
-		l = new TNode("L",null,null);
-		m = new TNode("M",null,null);
-		g = new TNode("G",e,i);
-		h = new TNode("H",j,k);
-		c = new TNode("C",l,m);
-		f = new TNode("F",null,null);
-		b = new TNode("B",g,h);
-		d = new TNode("D",c,f);
-		root = new TNode("A",b,d);
+
+	public void setList(List<String> list) {
+		Tree.list = list;
+	}
+
+	public void treeLevel(TNode root, int n) {
+		if (n <= 0) {
+			System.out.println("è¡Œæ•°ä¸ºå¤§äºé›¶çš„æ•´æ•°");
+		}
+		if (root != null) {
+			if (1 == n) {
+				list.add(root.value);
+			}
+			treeLevel(root.left, n - 1);
+			treeLevel(root.right, n - 1);
+		}
+	}
+}
+
+public class Test3 {
+
+	@Test
+	public void test() {
+		TNode root = init();
+		Tree tree = new Tree();
+		tree.treeLevel(root, 3);
+		//treeLevel(root, 3);
+		assertEquals("[G, H, C, F]", tree.getList().toString());
+
+		tree.getList().clear();
+		tree.treeLevel(root, 2);
+		assertEquals("[B, D]", tree.getList().toString());
+
+		tree.getList().clear();
+		tree.treeLevel(root, 1);
+		assertEquals("[A]", tree.getList().toString());
+
+		tree.getList().clear();
+		tree.treeLevel(root, 4);
+		assertEquals("[E, I, J, K, L, M]", tree.getList().toString());
+	}
+
+	public static TNode init() {
+		TNode root, b, c, d, e, f, g, h, i, j, k, l, m;
+		e = new TNode("E", null, null);
+		i = new TNode("I", null, null);
+		j = new TNode("J", null, null);
+		k = new TNode("K", null, null);
+		l = new TNode("L", null, null);
+		m = new TNode("M", null, null);
+		g = new TNode("G", e, i);
+		h = new TNode("H", j, k);
+		c = new TNode("C", l, m);
+		f = new TNode("F", null, null);
+		b = new TNode("B", g, h);
+		d = new TNode("D", c, f);
+		root = new TNode("A", b, d);
 		return root;
 	}
 	
-	public static void TreeLevel(TNode root, int n){
-		if (root!=null){
-			if (1==n){
-				list.add(root.value);
-			}
-			TreeLevel(root.left,n-1);
-			TreeLevel(root.right,n-1);
-			
-		}
+	public static TNode init2() {
+		TNode root, b, c, d, e, f, g, h, i, j, k, l, m;
+		e = new TNode("E", null, null);
+		i = new TNode("I", null, null);
+		j = new TNode("J", null, null);
+		k = new TNode("K", null, null);
+		l = new TNode("L", null, null);
+		m = new TNode("M", null, null);
+		g = new TNode("G", e, i);
+		h = new TNode("H", j, k);
+		c = new TNode("C", l, m);
+		f = new TNode("F", null, null);
+		b = new TNode("B", g, h);
+		d = new TNode("D", c, f);
+		root = new TNode("A", b, d);
+		return root;
 	}
+
 }

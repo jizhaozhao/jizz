@@ -4,12 +4,12 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
-//½«ÎÄ¼şÄÚÈİ×ª»»³ÉbyteÊı×é·µ»Ø£¬Èç¹ûÎÄ¼ş²»´æÔÚ»òÕß¶ÁÈë´íÎó·µ»Ønull
+//å°†æ–‡ä»¶å†…å®¹è½¬æ¢æˆbyteæ•°ç»„è¿”å›ï¼Œå¦‚æœæ–‡ä»¶ä¸å­˜åœ¨æˆ–è€…è¯»å…¥é”™è¯¯è¿”å›null
 public class Test {
 	public static void main (String[] args){
 		buffer = file2buf("C:\\Users\\lenovo\\Desktop\\test.txt");
 		if (buffer==null){
-			System.out.println("ÎÄ¼ş²»´æÔÚ»òÕß¶ÁÈë´íÎó");
+			System.out.println("æ–‡ä»¶ä¸å­˜åœ¨æˆ–è€…è¯»å…¥é”™è¯¯");
 		}
 		else {
 			for (byte b:buffer){
