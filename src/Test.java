@@ -15,6 +15,7 @@ public class Test {
 			for (byte b:buffer){
 				System.out.println(b);
 			}
+			System.out.println((byte)'A');
 		}
 	}
 	private static byte[] buffer = null;
@@ -26,7 +27,7 @@ public class Test {
             ByteArrayOutputStream bos = new ByteArrayOutputStream(1000);  
             byte[] b = new byte[1000];  
             int n;  
-            while ((n = fis.read(b)) != -1) {  
+            while ((n = fis.read(b,0,1000)) != -1) {  
                 bos.write(b, 0, n);  
             }  
             fis.close();  

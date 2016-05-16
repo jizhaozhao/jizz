@@ -4,7 +4,7 @@ import java.util.List;
 //实现intToHex 将一个整数转换为16进制的字符串
 public class Test2 {
 	public static void main (String[] args){
-		String ss = intToHex(28);
+		String ss = intToHex(255);
 		System.out.println(ss);
 	}
 	
@@ -26,6 +26,7 @@ public class Test2 {
 		for (int i=0;i<num1-1;i++){
 			list.add(s.substring(num2+4*i, num2+4*(i+1)));
 		}
+		s.setLength(0);
 		//sb用来存储最后的字符串
 		StringBuffer sb = new StringBuffer();
 		for (String sss:list){
