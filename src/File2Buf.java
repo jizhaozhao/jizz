@@ -25,22 +25,10 @@ public class File2Buf {
 	 * @return
 	 * @throws FileNotFoundException
 	 */
-	public static byte[] file2buf(File file) {
-		if (file.isDirectory()) {
-			System.out.println("该路径为文件夹目录");
-			return null;
-		}
-		if (file.length() > Integer.MAX_VALUE) {
-			System.out.println("文件大小大于2G");
-			return null;
-		}
+	public static byte[] file2buf(File file) throws FileNotFoundException {
+
 		InputStream fis = null;
-		try {
-			fis = new FileInputStream(file);
-		} catch (FileNotFoundException e1) {
-			System.out.println("文件不存在");
-			return null;
-		}
+		fis = new FileInputStream(file);
 
 		int fileSize = (int) file.length();
 		byte[] buf = new byte[fileSize];
@@ -77,27 +65,56 @@ public class File2Buf {
 	}
 
 	/**
-	 * 判断应该返回的提示字符串，"正确","错误" 或者 "读取文件异常"
+	 * 判断两个字符数组是否相等
+	 * 
 	 * @param b1
 	 * @param b2
 	 * @return
 	 */
-	public String check(byte[] b1, byte[] b2) {
-		if (null == b1) {
-			return "读取文件异常";
-		}
+	public boolean check(byte[] b1, byte[] b2) {
 		if (b1.length != b2.length)
-			return "错误";
+			return false;
 		int i = 0;
 		for (i = 0; i < b1.length; i++) {
 			if (b1[i] == b2[i])
 				continue;
 			else
-				return "错误";
+				return false;
 		}
 		if (i == b1.length)
-			return "正确";
-		return "错误";
+			return true;
+		return true;
+	}
+
+	/**
+	 * 返回该文件转换为字符数组后与正确结果是否相等
+	 * 
+	 * @param path
+	 * @param b2
+	 * @return
+	 */
+	public String Result(String path, byte[] b2) {
+		File file = new File(path);
+		byte[] buf = null;
+		if (file.isDirectory()) {
+			System.out.println("该路径为文件夹目录");
+			return "该路径为文件夹目录";
+		}
+		if (file.length() > Integer.MAX_VALUE) {
+			System.out.println("文件大小大于2G");
+			return "文件大小大于2G";
+		}
+		try {
+			buf = file2buf(file);
+		} catch (FileNotFoundException e) {
+			System.out.println("文件不存在");
+			return "文件不存在";
+		}
+		if (check(buf, b2))
+			return "转换成功";
+
+		return "转换失败";
+
 	}
 
 	@Test
@@ -105,26 +122,20 @@ public class File2Buf {
 
 		try {
 			assertEquals(
-					"读取文件异常",
-					check(file2buf(new File(
-							"C:\\Users\\lenovo\\Desktop\\tesst.txt")), "中国"
-							.getBytes()));
-			assertEquals(
-					"读取文件异常",
-					check(file2buf(new File("D:\\succezIDE2.rar")),
+					"文件不存在",
+					Result("C:\\Users\\lenovo\\Desktop\\tesst.txt",
 							"中国".getBytes()));
-			assertEquals("读取文件异常",
-					check(file2buf(new File("D:\\")), "中国".getBytes()));
 			assertEquals(
-					"正确",
-					check(file2buf(new File(
-							"C:\\Users\\lenovo\\Desktop\\test.txt")), "中国"
-							.getBytes("UTF-8")));
+					"转换成功",
+					Result("C:\\Users\\lenovo\\Desktop\\test.txt",
+							"中国".getBytes("UTF-8")));
 			assertEquals(
-					"正确",
-					check(file2buf(new File(
-							"C:\\Users\\lenovo\\Desktop\\test2.txt")), "中国"
-							.getBytes("GB2312")));
+					"转换成功",
+					Result("C:\\Users\\lenovo\\Desktop\\test2.txt",
+							"中国".getBytes("GB2312")));
+			assertEquals("文件大小大于2G",
+					Result("D:\\succezIDE2.rar", "中国".getBytes()));
+			assertEquals("该路径为文件夹目录", Result("D:\\", "中国".getBytes()));
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
 		}
