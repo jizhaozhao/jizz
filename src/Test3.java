@@ -5,13 +5,23 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
-//给定二叉树tree,tree的节点对象为TNode
+/**
+ * 给定二叉树tree,tree的节点对象为TNode
+ * 
+ * @author jizz
+ *
+ */
 class TNode {
 	String value;// 当前节点的值
 	TNode left, right;// 左右孩子节点
 	int level = 0;// 该二叉树的层数
 
-	// 获取该二叉树层数
+	/**
+	 * 获取该二叉树层数
+	 * 
+	 * @param node
+	 * @return 二叉树层数
+	 */
 	public int getLevel(TNode node) {
 		if (null == node)
 			return 0;
@@ -34,7 +44,12 @@ class TNode {
 
 public class Test3 {
 
-	// 将该层的TNode节点的list拼接成字符串
+	/**
+	 * 将该层的TNode节点的list拼接成字符串
+	 * 
+	 * @param list
+	 * @return 二叉树某层的值拼接成的字符串
+	 */
 	public String getString(List<TNode> list) {
 		if (null == list) {
 			return "层数错误";
@@ -67,6 +82,13 @@ public class Test3 {
 
 	}
 
+	/**
+	 * 获取二叉树某层的所有节点，并添加到list中
+	 * 
+	 * @param node
+	 * @param level
+	 * @return 二叉树某一层所有节点的list
+	 */
 	public static List<TNode> traval(TNode node, int level) {
 		// 如果层数为负
 		if (level < 0) {
@@ -81,6 +103,15 @@ public class Test3 {
 				new ArrayList<TNode>((int) Math.pow(2, level)));
 	}
 
+	/**
+	 * 递归获得当前层的节点
+	 * 
+	 * @param node
+	 * @param currentLevel
+	 * @param level
+	 * @param list
+	 * @return 二叉树某层所有节点的list
+	 */
 	private static List<TNode> traval(TNode node, int currentLevel, int level,
 			List<TNode> list) {
 		if (node == null) {

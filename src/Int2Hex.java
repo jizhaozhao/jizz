@@ -1,6 +1,12 @@
 import static org.junit.Assert.*;
 import org.junit.Test;
 
+/**
+ * 将一个整数转换为16进制的字符串
+ * 
+ * @author jizz
+ *
+ */
 public class Int2Hex {
 	// 使用固定好的对应字节数组来存储
 	private static final byte[] digitHexs = new byte[] { '0', '1', '2', '3',
@@ -18,7 +24,7 @@ public class Int2Hex {
 	 * </pre>
 	 * 
 	 * @param num
-	 * @return
+	 * @return 整数对应的十六进制字符串
 	 */
 	public String int2hex(int num) {
 		if (num == 0) {
@@ -49,7 +55,7 @@ public class Int2Hex {
 	 * 获取一个0~15的整数对应的十六进制字符
 	 * 
 	 * @param digit
-	 * @return
+	 * @return 整数转化后的十六进制字符
 	 */
 	private byte digit2HexChar(int digit) {
 		if (digit < 0 || digit > 15) {
