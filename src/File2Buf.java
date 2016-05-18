@@ -8,12 +8,14 @@ import java.io.UnsupportedEncodingException;
 
 import static org.junit.Assert.*;
 
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 
 /**
  * 将文件内容转换成byte数组返回
  * 
- * @author jizz @
+ * @author jizz
  */
 public class File2Buf {
 
@@ -25,19 +27,34 @@ public class File2Buf {
 	 * @return
 	 * @throws FileNotFoundException
 	 */
-	public static byte[] file2buf(File file) throws FileNotFoundException {
+	public static byte[] file2buf(File file) {
+
+		if (file.isDirectory()) {
+			System.out.println("该路径为文件夹目录");
+			throw new RuntimeException("该路径为文件夹目录");
+		}
+		if (file.length() > Integer.MAX_VALUE) {
+			System.out.println("文件大小大于2G");
+			throw new RuntimeException("文件大小大于2G");
+		}
 
 		InputStream fis = null;
-		fis = new FileInputStream(file);
+		try {
+			fis = new FileInputStream(file);
+		} catch (FileNotFoundException e1) {
+			System.out.println("文件不存在");
+			throw new RuntimeException("文件不存在");
+		}
 
 		int fileSize = (int) file.length();
 		byte[] buf = new byte[fileSize];
 		int total = 0;
-		int n = 0;
+
 		int a = fileSize / 4096;
 		int b = fileSize % 4096;
 
 		try {
+			int n = 0;
 			while (0 != a--) {
 				n = fis.read(buf, total, 4096);
 				total += 4096;
@@ -48,6 +65,10 @@ public class File2Buf {
 		} finally {
 			closeStream(fis);
 		}
+		for (byte bb : buf) {
+			System.out.println(bb);
+		}
+		System.out.println("============");
 		return buf;
 	}
 
@@ -64,78 +85,76 @@ public class File2Buf {
 		}
 	}
 
-	/**
-	 * 判断两个字符数组是否相等
-	 * 
-	 * @param b1
-	 * @param b2
-	 * @return
-	 */
-	public boolean check(byte[] b1, byte[] b2) {
-		if (b1.length != b2.length)
-			return false;
-		int i = 0;
-		for (i = 0; i < b1.length; i++) {
-			if (b1[i] == b2[i])
-				continue;
-			else
-				return false;
-		}
-		if (i == b1.length)
-			return true;
-		return true;
-	}
+	@Rule
+	public ExpectedException thrown = ExpectedException.none();
 
 	/**
-	 * 返回该文件转换为字符数组后与正确结果是否相等
+	 * 测试路径为文件夹的异常
 	 * 
-	 * @param path
-	 * @param b2
-	 * @return
+	 * @author jizz
 	 */
-	public String Result(String path, byte[] b2) {
-		File file = new File(path);
-		byte[] buf = null;
-		if (file.isDirectory()) {
-			System.out.println("该路径为文件夹目录");
-			return "该路径为文件夹目录";
-		}
-		if (file.length() > Integer.MAX_VALUE) {
-			System.out.println("文件大小大于2G");
-			return "文件大小大于2G";
-		}
-		try {
-			buf = file2buf(file);
-		} catch (FileNotFoundException e) {
-			System.out.println("文件不存在");
-			return "文件不存在";
-		}
-		if (check(buf, b2))
-			return "转换成功";
-
-		return "转换失败";
-
-	}
-
 	@Test
-	public void test() {
+	public void test1() {
+
+		thrown.expect(RuntimeException.class);
 
 		try {
-			assertEquals(
-					"文件不存在",
-					Result("C:\\Users\\lenovo\\Desktop\\tesst.txt",
-							"中国".getBytes()));
-			assertEquals(
-					"转换成功",
-					Result("C:\\Users\\lenovo\\Desktop\\test.txt",
-							"中国".getBytes("UTF-8")));
-			assertEquals(
-					"转换成功",
-					Result("C:\\Users\\lenovo\\Desktop\\test2.txt",
-							"中国".getBytes("GB2312")));
-			assertEquals("文件大小大于2G",
-					Result("D:\\succezIDE2.rar", "中国".getBytes()));
-			assertEquals("该路径为文件夹目录", Result("D:\\", "中国".getBytes()));
+			thrown.expectMessage("该路径为文件夹目录");
+			assertArrayEquals("中国".getBytes("UTF-8"),
+					file2buf(new File("C:\\")));
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
+	}
+
+	/**
+	 * 测试文件大于2G的异常
+	 */
+	@Test
+	public void test2() {
+
+		thrown.expect(RuntimeException.class);
+		thrown.expectMessage("文件大小大于2G");
+
+		try {
+			assertArrayEquals("中国".getBytes("UTF-8"), file2buf(new File(
+					"D:\\succezIDE2.rar")));
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
+	}
+
+	/**
+	 * 测试文件不存在的异常
+	 */
+	@Test
+	public void test3() {
+
+		thrown.expect(RuntimeException.class);
+		thrown.expectMessage("文件不存在");
+
+		try {
+			assertArrayEquals("中国".getBytes("UTF-8"), file2buf(new File(
+					"D:\\succezIE2.rar")));
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
+	}
+
+	/**
+	 * 测试正常情况
+	 * 
+	 * @author jizz
+	 */
+	@Test
+	public void test4() {
+
+		try {
+			assertArrayEquals("中国123abc".getBytes("UTF-8"), file2buf(new File(
+					"C:\\Users\\lenovo\\Desktop\\test.txt")));
+			assertArrayEquals("中国123abc".getBytes("GB2312"), file2buf(new File(
+					"C:\\Users\\lenovo\\Desktop\\test2.txt")));
+
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
 		}
